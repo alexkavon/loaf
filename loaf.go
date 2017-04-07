@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"gitlab.com/alexkavon/loaf/router"
+	"gitlab.com/infinitewtf/loaf/router"
 )
 
 func main() {
