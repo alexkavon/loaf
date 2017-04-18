@@ -19,10 +19,14 @@ func newLoaf(data string) *loaf {
 	return &loaf{}
 }
 
-func updateLoaf(data string) *loaf {
+func (l *loaf) save(data string) *loaf {
 	return &loaf{}
 }
 
-func deleteLoaf() bool {
+func (l *loaf) update(data string) *loaf {
+	return &loaf{}
+}
+
+func (l *loaf) delete() bool {
 	return true
 }
