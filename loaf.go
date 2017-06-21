@@ -1,9 +1,10 @@
 package main
 
 import (
+	"github.com/gorilla/websocket"
+	"gitlab.com/alexkavon/loaf/client"
 	"log"
 	"net/http"
-	"github.com/gorilla/websocket"
 )
 
 var clients = make(map[*websocket.Conn]bool)
@@ -11,15 +12,18 @@ var broadcast = make(chan Message)
 var upgrader = websocket.Upgrader{}
 
 type Message struct {
-	Email string `json:"email"`
+	Email    string `json:"email"`
 	Username string `json:"username"`
-	Message string `json:"message"`
+	Message  string `json:"message"`
 }
 
 func main() {
+	fs := http.FileServer(http.Dir("./public"))
+	http.Handle("/", fs)
 	http.HandleFunc("/ws", handleConnections)
 	go handleMessages()
 
+	log.Println(fs)
 	log.Println("http server started on :8000")
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
@@ -35,7 +39,8 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
 	defer ws.Close()
 
-	clients[ws] = true
+	cm := client.NewClientManager()
+	cm.NewClient(ws)
 
 	for {
 		var msg Message
@@ -43,7 +48,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		err := ws.ReadJSON(&msg)
 		if err != nil {
 			log.Printf("error: %v", err)
-			delete(clients, ws)
+			cm.DeleteClient(ws)
 			break
 		}
 
