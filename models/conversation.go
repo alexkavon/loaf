@@ -1,13 +1,12 @@
 package models
 
 type Conversation struct {
-	Model        *Model
-	Channel      string
+	Loaf         string
 	Audience     []User
 	Contributors []User
-	Meta         string
+	Meta         Meta
 	Privacy      []string
 	Parent       string
-	Content      string
+	Content      []Content
 	Flags        []string
 }
