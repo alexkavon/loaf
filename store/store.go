@@ -2,13 +2,23 @@ package store
 
 import (
 	"github.com/boltdb/bolt"
-	"gitlab.com/alexkavon/loaf/store"
 )
 
-type Store struct {
-	Name string
-	Host string
-	Port int64
+type Store {
+	Name	string
+	Config	*StoreConfig
+}
+
+type StoreConfig struct {
+	Host	string
+	Port	int64
+}
+
+type StorePlugin interface {
+	NewStore() Store
+	Save() error
+	Delete() error
+	Prepare() Transaction
 }
 
 func NewStore() Store {
@@ -17,4 +27,6 @@ func NewStore() Store {
 		return
 	}
 	defer db.Close()
+
+	return &Store{Name: "Bolt", Config: &StoreConfig{Host: "my.db", Port: 8080}}
 }
