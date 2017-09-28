@@ -1,7 +1,9 @@
 package models
 
 type Model interface {
-	Index()
+	All()
+	One()
+	Validate()
 	Store()
 	Update()
 	Destroy()

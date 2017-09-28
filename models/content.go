@@ -1,7 +1,7 @@
 package models
 
 type Content struct {
-	Audience  []User
+	Audience  []*Loaf
 	Meta      Meta
 	Privacy   []string
 	Flags     []string
