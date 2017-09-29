@@ -1,2 +1,2 @@
 # Loaf
-A social collaboration platform
+A communication collaboration platform
